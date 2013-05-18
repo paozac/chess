@@ -157,10 +157,10 @@ module Chess
       #
       # Returns an array
       def split_line(line)
-        regexp = /(\d+\.)([^ ]+)(\s+([^ ]+))?/
+        regexp = /(\d+\.)(?<white>[^ ]+)(\s+(?<black>[^ ]+))?/
         match_data = regexp.match(line)
 
-        [match_data[2], match_data[4]] if match_data
+        [match_data[:white], match_data[:black]] if match_data
       end
   end
 end
