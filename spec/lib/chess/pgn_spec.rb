@@ -15,5 +15,15 @@ describe Chess::Pgn do
     it "stores the raw data locally" do
       expect(@parser.raw_data).to eq(data)
     end
+
+    it "extracts the event name" do
+      expect(@parser.event).to eq("IBM Man-Machine, New York USA")
+    end
+    it "extracts the event site" do
+      expect(@parser.site).to eq("02")
+    end
+    it "extracts the event date" do
+      expect(@parser.date).to eq("1997.??.??")
+    end
   end
 end
