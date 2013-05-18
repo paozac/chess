@@ -3,11 +3,28 @@ module Chess
     # Public: The raw PGN data
     attr_accessor :raw_data
 
-    PGN_ATTRIBUTES = [
-      :event, :site, :date
+    # List of required and optional tags.
+    # See http://en.wikipedia.org/wiki/Portable_Game_Notation
+    #
+    PGN_TAGS = [
+      # Mandatory tags
+      :event,
+      :site,
+      :date,
+      :round,
+      :white,
+      :black,
+      :result,
+      # Optional tags
+      :eventdate,
+      :eco,
+      :whiteelo,
+      :blackelo,
+      :plycount
     ]
-    # Public: PGN event attributes
-    attr_accessor *PGN_ATTRIBUTES
+
+    # Public: PGN tag accessors
+    attr_accessor *PGN_TAGS
 
     # Public: parses a PGN string
     #
@@ -26,9 +43,9 @@ module Chess
     # Returns self, to allow a fluent interface
     def parse(text)
       self.raw_data = text
-      metadata = extract_metadata
-      metadata.each_pair do |key, value|
-        if PGN_ATTRIBUTES.include?(key)
+      tags = extract_tags
+      tags.each_pair do |key, value|
+        if PGN_TAGS.include?(key)
           self.send("#{key}=", value)
         end
       end
@@ -37,13 +54,13 @@ module Chess
 
     private
 
-      # Private: extracts the PGN metadata (event, date, player names, etc).
-      # PGN metadata format is
+      # Private: extracts the PGN tags (event, date, player names, etc).
+      # PGN tag format is
       #
       #    [key "value"]
       #
       # Returns a hash in {property: value} format
-      def extract_metadata
+      def extract_tags
         items = {}
 
         lines = raw_data.split("\n")
@@ -51,7 +68,7 @@ module Chess
           regexp = Regexp.new('(\[\s*(?<key>\w+)\s*"(?<value>[^"]*)"\s*\]\s*)+')
           match_data = regexp.match(line)
           next unless match_data
-          key = normalize_metadata_label(match_data[:key])
+          key = normalize_tag_label(match_data[:key])
           value = match_data[:value]
           items[key] = value
         end
@@ -59,15 +76,15 @@ module Chess
         items
       end
 
-      # Private: converts the metadata label to a standard symbol format
+      # Private: converts the tag label to a ruby-friendly symbol format
       #
       # Examples:
       #
-      #    normalize_metadata_label('Event')
+      #    normalize_tag_label('Event')
       #    => :event
       #
       # Returns a symbol
-      def normalize_metadata_label(label)
+      def normalize_tag_label(label)
         label.gsub(/[-\ ]/, '_').downcase.to_sym
       end
   end
