@@ -1,5 +1,15 @@
 require 'spec_helper'
 
 describe Chess::Game do
-  pending
+  describe ".load_from_pgn" do
+    let(:data) { File.read 'spec/fixtures/deep_blue_kasparov_1997.pgn' }
+
+    before do
+      @game = described_class.load_from_pgn(data)
+    end
+
+    it "returns a Game object" do
+      expect(@game).to be_kind_of(Chess::Game)
+    end
+  end
 end
