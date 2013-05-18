@@ -16,11 +16,11 @@ module Chess
       :black,
       :result,
       # Optional tags
-      :eventdate,
+      :event_date,
       :eco,
-      :whiteelo,
-      :blackelo,
-      :plycount
+      :white_elo,
+      :black_elo,
+      :ply_count
     ]
 
     # Public: PGN tag accessors
@@ -99,7 +99,7 @@ module Chess
       #
       # Returns a symbol
       def normalize_tag_label(label)
-        label.gsub(/[-\ ]/, '_').downcase.to_sym
+        label.underscore.to_sym
       end
 
       # Private: extracts the move list from the PGN data. Deals with single

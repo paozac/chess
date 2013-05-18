@@ -31,7 +31,7 @@ describe Chess::Pgn do
       end
 
       it "extracts the game event date" do
-        expect(@parser.eventdate).to eq("?")
+        expect(@parser.event_date).to eq("?")
       end
 
       it "extracts the game round" do
@@ -55,15 +55,15 @@ describe Chess::Pgn do
       end
 
       it "extracts the game white ELO" do
-        expect(@parser.whiteelo).to eq("?")
+        expect(@parser.white_elo).to eq("?")
       end
 
       it "extracts the game black ELO" do
-        expect(@parser.blackelo).to eq("?")
+        expect(@parser.black_elo).to eq("?")
       end
 
       it "extracts the game ply count" do
-        expect(@parser.plycount).to eq("89")
+        expect(@parser.ply_count).to eq("89")
       end
     end
 
