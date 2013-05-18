@@ -107,11 +107,12 @@ module Chess
       #
       # Returns a bidimensional array
       def extract_moves
-        if multiline_move_list?
+        lines = if multiline_move_list?
           extract_move_lines
         else
           tokenize_single_line_move_list
         end
+        lines.map{|line| split_line(line)}.compact
       end
 
       # Private: filters out the non-blank and non-tags PGN lines
@@ -145,6 +146,21 @@ module Chess
           out << "#{item} #{tokens[idx + 1]}" if idx % 2 == 0
         end
         out
+      end
+
+      # Private: Extracts the two moves from the single line
+      #
+      # Example:
+      #
+      #   split_line('1.e4 e5')
+      #   => ['e4', 'e5']
+      #
+      # Returns an array
+      def split_line(line)
+        regexp = /(\d+\.)([^ ]+)(\s+([^ ]+))?/
+        match_data = regexp.match(line)
+
+        [match_data[2], match_data[4]] if match_data
       end
   end
 end
