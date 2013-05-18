@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Chess::Pgn do
   describe ".parse" do
     let(:data) { File.read 'spec/fixtures/deep_blue_kasparov_1997.pgn' }
+    let(:multi_line_data) { File.read 'spec/fixtures/deep_blue_kasparov_1997_multiline.pgn' }
 
     before do
       @parser = Chess::Pgn.parse(data)
@@ -63,6 +64,20 @@ describe Chess::Pgn do
 
       it "extracts the game ply count" do
         expect(@parser.plycount).to eq("89")
+      end
+    end
+
+    describe "move list extraction" do
+      it "generates an array of moves" do
+        expect(@parser.moves.size).to eq(45)
+      end
+    end
+
+    describe "multiple moves format" do
+      it "handles PGN files with one move per line" do
+        one_line_moves = @parser.moves
+        multi_line_moves = Chess::Pgn.parse(multi_line_data).moves
+        expect(one_line_moves).to eq(multi_line_moves)
       end
     end
   end

@@ -52,6 +52,20 @@ module Chess
       self
     end
 
+    # Public: returns a memoized array of moves in this format:
+    #
+    # [
+    #   ['e4', 'e5'],
+    #   ['Nf3', 'Nc6'],
+    #   ...
+    #   ['Ra6', '1-0']
+    # ]
+    #
+    # Returns an array
+    def moves
+      @move_list ||= extract_moves
+    end
+
     private
 
       # Private: extracts the PGN tags (event, date, player names, etc).
@@ -86,6 +100,51 @@ module Chess
       # Returns a symbol
       def normalize_tag_label(label)
         label.gsub(/[-\ ]/, '_').downcase.to_sym
+      end
+
+      # Private: extracts the move list from the PGN data. Deals with single
+      # and multiple line formats.
+      #
+      # Returns a bidimensional array
+      def extract_moves
+        if multiline_move_list?
+          extract_move_lines
+        else
+          tokenize_single_line_move_list
+        end
+      end
+
+      # Private: filters out the non-blank and non-tags PGN lines
+      #
+      # Returns a line array
+      def extract_move_lines
+        @move_lines ||= raw_data.split("\n").
+                        reject(&:blank?).
+                        reject {|line| line.starts_with?('[')}
+      end
+
+      # Private: figures out if the move list is expressed in one line or more
+      #
+      # Returns a boolean
+      def multiline_move_list?
+        extract_move_lines.size > 1
+      end
+
+      # Private: breaks up the single line in multiple items. Returns the same
+      # output you'd get with a multi-line move list.
+      #
+      # TODO: This is bad code. Use a regexp, this implementation works only
+      # with a perfect format - no space after the move number etc.
+      #
+      # Returns an array of strings
+      def tokenize_single_line_move_list
+        out = []
+        tokens = extract_move_lines.first.split(' ')
+
+        tokens.each_with_index do |item, idx|
+          out << "#{item} #{tokens[idx + 1]}" if idx % 2 == 0
+        end
+        out
       end
   end
 end
