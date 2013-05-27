@@ -48,5 +48,28 @@ module Chess
     def self.default
       new
     end
+
+    # Converts a single rank to FEN format
+    #
+    #   rank - an array of pieces
+    #
+    # Returns a string
+    def rank_to_fen(rank)
+      out = ""
+      empty = 0
+      rank.each do |square|
+        if square.nil?
+          empty += 1
+        else
+          if empty > 0
+            out += empty.to_s
+            empty = 0
+          end
+          out += square.to_s
+        end
+      end
+      out += empty.to_s if empty > 0
+      out
+    end
   end
 end
