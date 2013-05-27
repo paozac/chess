@@ -25,11 +25,6 @@ module Chess
       self.squares = setup
     end
 
-    # Public: returns the FEN representation of the current board state. This
-    # doesn't include the castling info and such.
-    def to_fen
-    end
-
     # Public: returns an ASCII table of the board state
     #
     def to_ascii
@@ -47,6 +42,16 @@ module Chess
     #
     def self.default
       new
+    end
+
+    # Public: partial FEN representation of the current board setup. Doesn't
+    # include castling info and move count - they belong to the `Game` class
+    #
+    # Returns a string
+    def to_fen
+      squares.map do |rank|
+        rank_to_fen(rank)
+      end.join("/")
     end
 
     # Converts a single rank to FEN format

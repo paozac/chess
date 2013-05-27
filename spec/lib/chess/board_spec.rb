@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe Chess::Board do
-  describe "#to_fen" do
-    pending
-  end
-
   describe ".default" do
     subject { described_class.default }
 
@@ -42,7 +38,7 @@ describe Chess::Board do
   end
 
   describe "#rank_to_fen" do
-    let(:board) { Chess::Board.new }
+    let(:board) { described_class.new }
 
     it "formats a string with the pieces" do
       pieces = [:r, :n, :b, :q, :k, :b, :n, :r]
@@ -57,6 +53,14 @@ describe Chess::Board do
     it "splats empty squares" do
       pieces = [nil, nil, nil, nil, nil, nil, nil, nil]
       expect(board.rank_to_fen(pieces)).to eq("8")
+    end
+  end
+
+  describe "#to_fen" do
+    it "returns a partial FEN representation" do
+      expect(described_class.default.to_fen).to eq(
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+      )
     end
   end
 end
