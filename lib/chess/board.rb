@@ -13,8 +13,6 @@ module Chess
       [nil, nil, nil, nil, nil, nil, nil, nil],
       [nil, nil, nil, nil, nil, nil, nil, nil],
       [nil, nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil, nil],
       [:P,  :P,  :P,  :P,  :P,  :P,  :P,  :P ],
       [:R,  :N,  :B,  :Q,  :K,  :B,  :N,  :R ]
     ]
@@ -30,6 +28,19 @@ module Chess
     # Public: returns the FEN representation of the current board state. This
     # doesn't include the castling info and such.
     def to_fen
+    end
+
+    # Public: returns an ASCII table of the board state
+    #
+    def to_ascii
+      out = "+-+-+-+-+-+-+-+-+\n"
+      squares.each do |row|
+        row.each do |square|
+          out += "|#{square || ' '}"
+        end
+        out += "|\n+-+-+-+-+-+-+-+-+\n"
+      end
+      out
     end
 
     # Public: returns a board with the initial setup

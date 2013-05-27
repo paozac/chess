@@ -16,4 +16,28 @@ describe Chess::Board do
       expect(subject.squares).to eq(Chess::Board::INITIAL_SETUP)
     end
   end
+
+  describe "#to_ascii" do
+    it "returns a nicely formatted ascii table" do
+      expect(described_class.default.to_ascii).to eq(
+        "+-+-+-+-+-+-+-+-+\n" +
+        "|r|n|b|q|k|b|n|r|\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "|p|p|p|p|p|p|p|p|\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "| | | | | | | | |\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "| | | | | | | | |\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "| | | | | | | | |\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "| | | | | | | | |\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "|P|P|P|P|P|P|P|P|\n" +
+        "+-+-+-+-+-+-+-+-+\n" +
+        "|R|N|B|Q|K|B|N|R|\n" +
+        "+-+-+-+-+-+-+-+-+\n"
+      )
+    end
+  end
 end
