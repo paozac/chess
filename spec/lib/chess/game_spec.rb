@@ -11,5 +11,10 @@ describe Chess::Game do
     it "returns a Game object" do
       expect(@game).to be_kind_of(Chess::Game)
     end
+
+    it "loads the move list" do
+      expect(@game.moves).to be_kind_of(Array)
+      expect(@game.moves.size).to eq(90)
+    end
   end
 end

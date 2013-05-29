@@ -68,8 +68,12 @@ describe Chess::Pgn do
     end
 
     describe "move list extraction" do
+      it "generates an array of moves pairs" do
+        expect(@parser.move_pairs.size).to eq(45)
+      end
+
       it "generates an array of moves" do
-        expect(@parser.moves.size).to eq(45)
+        expect(@parser.moves.size).to eq(90)
       end
     end
 

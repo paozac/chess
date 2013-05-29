@@ -52,6 +52,15 @@ module Chess
       self
     end
 
+    # Public: returns a memoized array of moves
+    #
+    # ['e4', 'e5', ...]
+    #
+    # Returns an array
+    def moves
+      @moves ||= move_pairs.flatten
+    end
+
     # Public: returns a memoized array of moves in this format:
     #
     # [
@@ -62,8 +71,8 @@ module Chess
     # ]
     #
     # Returns an array
-    def moves
-      @move_list ||= extract_moves
+    def move_pairs
+      @move_pairs ||= extract_moves
     end
 
     private
