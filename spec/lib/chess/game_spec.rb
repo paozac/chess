@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Chess::Game do
-  describe ".load_from_pgn" do
-    let(:data) { File.read 'spec/fixtures/deep_blue_kasparov_1997.pgn' }
+  let(:data) { File.read 'spec/fixtures/deep_blue_kasparov_1997.pgn' }
 
+  describe ".load_from_pgn" do
     before do
       @game = described_class.load_from_pgn(data)
     end
@@ -48,6 +48,29 @@ describe Chess::Game do
         expect(move).to eq 'e4'
         expect(@game.current_move_index).to eq(2)
       end
+    end
+  end
+
+  describe "#current_setup" do
+    it "returns an array with the current position" do
+      expect(described_class.new.current_setup).to eq(Chess::Board::INITIAL_SETUP)
+    end
+
+    it "follows the game moves" do
+      game = described_class.load_from_pgn(data)
+      game.next_move
+      expect(game.current_setup).to eq(
+        [
+          [:r,  :n,  :b,  :q,  :k,  :b,  :n,  :r ],
+          [:p,  :p,  :p,  :p,  :p,  :p,  :p,  :p ],
+          [nil, nil, nil, nil, nil, nil, nil, nil],
+          [nil, nil, nil, nil, nil, nil, nil, nil],
+          [nil, :P,  nil, nil, nil, nil, nil, nil],
+          [nil, nil, nil, nil, nil, nil, nil, nil],
+          [:P,  nil, :P,  :P,  :P,  :P,  :P,  :P ],
+          [:R,  :N,  :B,  :Q,  :K,  :B,  :N,  :R ]
+        ]
+      )
     end
   end
 end

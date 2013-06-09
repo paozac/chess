@@ -44,6 +44,17 @@ module Chess
       moves[i]
     end
 
+    # Public: Returns the piece setup for the current position
+    #
+    # Returns a bidimensional array
+    def current_setup
+      if @current_move_index == 0
+        Board::INITIAL_SETUP
+      else
+        raise "Not Implemented Yet"
+      end
+    end
+
     # Public: total number of moves
     #
     def total_moves
