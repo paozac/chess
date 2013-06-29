@@ -36,6 +36,7 @@ module Chess
       i = @current_move_index + 1
       i = last_move if i >= last_move
       @current_move_index = i
+      build_setup(i)
       moves[i]
     end
 
@@ -59,6 +60,13 @@ module Chess
     #
     def total_moves
       moves.size
+    end
+
+    # Private: adds a board setup entry for the current move
+    #
+    # Returns the current setup
+    def build_setup(move_index)
+      return board_setups[move_index] if board_setups[move_index]
     end
 
     # Public: creates a game object from a PGN-formatted string

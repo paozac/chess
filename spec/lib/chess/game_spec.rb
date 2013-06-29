@@ -73,4 +73,11 @@ describe Chess::Game do
       )
     end
   end
+
+  describe "#build_setup" do
+    it "returns the correct setup" do
+      game = described_class.load_from_pgn(data)
+      expect(game.build_setup(0)).to eq(Chess::Board::INITIAL_SETUP)
+    end
+  end
 end
