@@ -8,7 +8,11 @@ module Chess
     # Public: current move index, 0 is the first move index
     attr_accessor :current_move_index
 
+    # Public: a board setups array indexed by move
+    attr_accessor :board_setups
+
     def initialize
+      @board_setups = [Board::INITIAL_SETUP]
       @current_move_index = 0
     end
 
@@ -48,11 +52,7 @@ module Chess
     #
     # Returns a bidimensional array
     def current_setup
-      if @current_move_index == 0
-        Board::INITIAL_SETUP
-      else
-        raise "Not Implemented Yet"
-      end
+      @board_setups[@current_move_index]
     end
 
     # Public: total number of moves
