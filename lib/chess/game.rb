@@ -66,7 +66,27 @@ module Chess
     #
     # Returns the current setup
     def build_setup(move_index)
-      return board_setups[move_index] if board_setups[move_index]
+      board_setups[move_index] ||= execute_move(move_index)
+    end
+
+    private
+
+    # Private: applies the move
+    #
+    # Returns a new board setup
+    def execute_move(move_index)
+      previous = board_setups[move_index - 1]
+      current = clone_setup(previous)
+      move = PgnMove.new(moves[move_index])
+
+      # Which piece was moved?
+
+      current
+    end
+
+    # Private: clones a board setup (deep copy)
+    def clone_setup(setup)
+      setup.map(&:dup)
     end
 
     # Public: creates a game object from a PGN-formatted string
