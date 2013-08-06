@@ -9,7 +9,7 @@ describe Chess::Board do
     end
 
     it "stores the default setup" do
-      expect(subject.squares).to eq(Chess::Board::INITIAL_SETUP)
+      expect(subject.squares.setup).to eq(Chess::BoardSetup::INITIAL)
     end
   end
 

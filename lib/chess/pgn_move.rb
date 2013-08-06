@@ -5,11 +5,12 @@ module Chess
     # Public: the PGN move string
     attr_accessor :string
 
-    # Initializer
+    # Initializer. Moves make sense only in the context of a setup
     #
-    # PgnMove.new('c6')
-    def initialize(move)
+    # PgnMove.new('c6', setup)
+    def initialize(move, setup = nil)
       raise "No move provided" if move.blank?
+      @setup = setup
       self.string = move.strip
     end
 

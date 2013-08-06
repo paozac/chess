@@ -53,7 +53,7 @@ describe Chess::Game do
 
   describe "#current_setup" do
     it "returns an array with the current position" do
-      expect(described_class.new.current_setup).to eq(Chess::Board::INITIAL_SETUP)
+      expect(described_class.new.current_setup).to eq(Chess::BoardSetup::INITIAL)
     end
 
     it "follows the game moves" do
@@ -77,7 +77,7 @@ describe Chess::Game do
   describe "#build_setup" do
     it "returns the correct setup" do
       game = described_class.load_from_pgn(data)
-      expect(game.build_setup(0)).to eq(Chess::Board::INITIAL_SETUP)
+      expect(game.build_setup(0).ranks).to eq(Chess::BoardSetup::INITIAL)
     end
   end
 end

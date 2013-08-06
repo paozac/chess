@@ -3,33 +3,20 @@ module Chess
   # to the `Game` class.
   #
   class Board
-    # Use FEN pieces notation format. Lowercase is black, uppercase white.
-    # I'm using a bottom-top representation for easier human visualization.
-    #
-    INITIAL_SETUP = [
-      [:r,  :n,  :b,  :q,  :k,  :b,  :n,  :r ],
-      [:p,  :p,  :p,  :p,  :p,  :p,  :p,  :p ],
-      [nil, nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil, nil],
-      [:P,  :P,  :P,  :P,  :P,  :P,  :P,  :P ],
-      [:R,  :N,  :B,  :Q,  :K,  :B,  :N,  :R ]
-    ]
 
     # Public: bidimensional array of the board squares
     #
     attr_accessor :squares
 
-    def initialize(setup = INITIAL_SETUP)
-      self.squares = setup
+    def initialize(setup = nil)
+      self.squares = setup || BoardSetup.new
     end
 
     # Public: returns an ASCII table of the board state
     #
     def to_ascii
       out = "+-+-+-+-+-+-+-+-+\n"
-      squares.each do |row|
+      squares.ranks.each do |row|
         row.each do |square|
           out += "|#{square || ' '}"
         end
@@ -49,7 +36,7 @@ module Chess
     #
     # Returns a string
     def to_fen
-      squares.map do |rank|
+      squares.ranks.map do |rank|
         rank_to_fen(rank)
       end.join("/")
     end

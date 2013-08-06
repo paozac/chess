@@ -12,7 +12,7 @@ module Chess
     attr_accessor :board_setups
 
     def initialize
-      @board_setups = [Board::INITIAL_SETUP]
+      @board_setups = [BoardSetup.new]
       @current_move_index = 0
     end
 
@@ -53,7 +53,7 @@ module Chess
     #
     # Returns a bidimensional array
     def current_setup
-      @board_setups[@current_move_index]
+      @board_setups[@current_move_index].setup
     end
 
     # Public: total number of moves
@@ -76,17 +76,12 @@ module Chess
     # Returns a new board setup
     def execute_move(move_index)
       previous = board_setups[move_index - 1]
-      current = clone_setup(previous)
-      move = PgnMove.new(moves[move_index])
+      current = previous.clone
+      move = PgnMove.new(moves[move_index], current)
 
       # Which piece was moved?
 
       current
-    end
-
-    # Private: clones a board setup (deep copy)
-    def clone_setup(setup)
-      setup.map(&:dup)
     end
 
     # Public: creates a game object from a PGN-formatted string
