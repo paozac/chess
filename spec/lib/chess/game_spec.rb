@@ -56,7 +56,7 @@ describe Chess::Game do
       expect(described_class.new.current_setup).to eq(Chess::BoardSetup::INITIAL)
     end
 
-    it "follows the game moves" do
+    pending "follows the game moves" do
       game = described_class.load_from_pgn(data)
       game.next_move
       expect(game.current_setup).to eq(

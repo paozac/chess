@@ -19,7 +19,7 @@ module Chess
     attr_accessor :setup
 
     def initialize(setup = INITIAL)
-      @setup = setup
+      @setup = clone_bidimensional_array(setup)
     end
 
     # Returs a deep copy
@@ -29,6 +29,23 @@ module Chess
 
     def ranks
       setup
+    end
+
+    # Smart comparison. Allows comparison between BoardSetup objects and board
+    # setup expressed as a bidimensional array
+    def ==(other)
+      if other.kind_of?(Array)
+        other == setup
+      else
+        other.setup == self.setup
+      end
+    end
+
+    private
+
+    # Deep copy
+    def clone_bidimensional_array(a)
+      a.map(&:dup)
     end
   end
 end
